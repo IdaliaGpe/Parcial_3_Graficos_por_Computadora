@@ -65,6 +65,22 @@ def main():
     if not success:
         info_log = gl.glGetShaderInfoLog(fragment_shader, 512, None)
         raise Exception(info_log)  
+    
+    #Adjuntar shaders al programa de shader
+    shader_program = gl.glCreateProgram()
+    gl.glAttachShader(shader_program, vertex_shader)
+    gl.glAttachShader(shader_program, fragment_shader)
+
+    #Vincular el programa con openGL
+    gl.glLinkProgram(shader_program)
+    
+    success = gl.glGetProgramiv(shader_program, gl.GL_LINK_STATUS)
+    if not success:
+        info_log = gl.glGetProgramInfoLog(shader_program, 512, None)
+        raise Exception(info_log)
+    
+    gl.glDeleteShader(vertex_shader)
+    gl.glDeleteShader(fragment_shader)
 
 def framebuffer_size_callback(window, width, height):
     gl.glViewport(0, 0, width, height)
