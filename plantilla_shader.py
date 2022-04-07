@@ -1,7 +1,9 @@
+from ctypes import c_void_p
 from curses import window
 from sre_constants import SUCCESS
 from tkinter.messagebox import NO
 from turtle import Screen
+
 import OpenGL.GL as gl
 import glfw
 import numpy as np
@@ -81,6 +83,32 @@ def main():
     
     gl.glDeleteShader(vertex_shader)
     gl.glDeleteShader(fragment_shader)
+
+    vertices = np. array(
+        [
+            -0.5, -0.5, 0.0, #izquierda, abajo
+            0.0, 0.5, 0.0, #arriba
+            0.5, -0.5, 0.0 #derecha
+        ], dtype = "float32"
+    )
+
+    #Generar vertex array object y vertex buffer object
+    VAO = gl.glGenVertexArrays(1)
+    VBO = gl.glGenBuffers(1)
+
+    #Le decimos a OpenGL con cual VAO trabajar
+    gl.glBindVertexArray(VAO)
+
+    #Le decimos a OpenGL con cual Buffer trabajar
+    gl.glBindBuffer(gl.GL_ARRAY_BUFFER, VBO)
+
+    #Establecer la informacion al Buffer
+    gl.glBufferData(gl.GL_ARRAY_BUFFER, vertices.nbytes, vertices, gl.GL_STATIC_DRAW)
+
+    #Definir como leer el VAO y activarlo
+    gl.glVertexAttribPointer(0, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, c_void_p(0))
+
+    gl.glEnableVertexAttribArray(0)
 
 def framebuffer_size_callback(window, width, height):
     gl.glViewport(0, 0, width, height)
