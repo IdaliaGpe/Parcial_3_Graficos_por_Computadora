@@ -125,5 +125,11 @@ def main():
         #Mandar a Dibujar el VAO
         gl.glDrawArrays(gl.GL.TRIANGLES, 0, 3)
 
+        gl.glBindVertexArray(0)
+        gl.glUseProgram(0)
+
+        glfw.swap_buffers()
+        glfw.poll_events()
+
 def framebuffer_size_callback(window, width, height):
     gl.glViewport(0, 0, width, height)
