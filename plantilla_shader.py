@@ -107,8 +107,23 @@ def main():
 
     #Definir como leer el VAO y activarlo
     gl.glVertexAttribPointer(0, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, c_void_p(0))
-
     gl.glEnableVertexAttribArray(0)
+
+    gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
+    gl.glBindVertexArray(0)
+
+    #Draw Loop
+    while not glfw.window_should_close(window):
+        gl.glClearColor(0.3, 0.3, 0.3, 1.0)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT)
+
+        #Dibujar
+        #Establecer que programa de shader se usa
+        gl.glUseProgram(shader_program)
+        #Establecer que VAO se va a usar
+        gl.glBindVertexArray(VAO)
+        #Mandar a Dibujar el VAO
+        gl.glDrawArrays(gl.GL.TRIANGLES, 0, 3)
 
 def framebuffer_size_callback(window, width, height):
     gl.glViewport(0, 0, width, height)
