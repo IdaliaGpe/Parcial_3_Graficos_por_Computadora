@@ -95,10 +95,13 @@ def main():
 
     # Le decimos a OpenGL con cual VAO trabajar
     gl.glBindVertexArray(VAO)
+    
     # Le decimos a OpenGL con cual Buffer trabajar
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, VBO)
+
     # Establecerle la información al buffer
     gl.glBufferData(gl.GL_ARRAY_BUFFER, vertices.nbytes, vertices, gl.GL_STATIC_DRAW)
+
     # Definir como leer el VAO y activarlo
     # La estructura de un vertex puede cambiar mucho por eso definimos como leerlo.
     # GL_FLOAT tiene 32 bits
@@ -118,8 +121,10 @@ def main():
         # Dibujar
         # Establecer que programa de shader se usa
         gl.glUseProgram(shader_program)
+        
         # EStablecer que VAO se va a usar
         gl.glBindVertexArray(VAO)
+
         # Mandar a dibujar el VAO
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, 3)
 
