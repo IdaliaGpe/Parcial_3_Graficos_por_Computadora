@@ -1,8 +1,8 @@
-from pyexpat import model
 import OpenGL.GL as gl
 import glfw
 import numpy as np
 
+from pyexpat import model
 from re import M
 from Shader import *
 from Modelo import *
@@ -18,20 +18,14 @@ modelo = None
 # in - atributos de entradas (el valor se le asigna desde el CPU)
 # vec3 es el tipo de dato (x, y, z) y position es el nombre de la variable.
 # out - salida
-vertex_shader_source = """#version 330 core
-                          layout (location = 0) in vec3 position;
-                          //hay que establecer posicion en la propiedad
-                          //gl_Position que es del tipo vec4
-                          void main() {
-                            gl_Position = vec4(position.x, position.y,
-                                position.z, 1.0);
-                          }"""
 
-fragment_shader_source = """#version 330 core
-                            out vec4 fragmentColor;
-                            void main() {
-                                fragmentColor = vec4(1.0f, 0.2f, 0.1f, 1.0);
-                            }"""
+vertex_shader_source = ""
+with open('vertex_shader.glsl') as archivo:
+    vertex_shader_source = archivo.readlines()
+
+fragment_shader_source = ""
+with open('fragment_shader.glsl') as archivo:
+    fragment_shader_source = archivo.readlines()
 
 def dibujar():
 
