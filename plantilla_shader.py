@@ -10,6 +10,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 modelo = None
+window = None
 
 vertex_shader_source = ""
 with open('vertex_shader.glsl') as archivo:
@@ -19,12 +20,22 @@ fragment_shader_source = ""
 with open('fragment_shader.glsl') as archivo:
     fragment_shader_source = archivo.readlines()
 
+def actualizar():
+    global window
+    estado_arriba = glfw.get_key(window, glfw.KEY_UP)
+    estado_abajo = glfw.get_key(window, glfw.KEY_DOWN)
+    if estado_arriba == glfw.PRESS:
+        modelo.mover(modelo.ARRIBA)
+    if estado_abajo == glfw.PRESS:
+        modelo.mover(modelo.ABAJO)
+
 def dibujar():
     global modelo
     modelo.dibujar()
 
 def main():
     global modelo
+    global window
     glfw.init()
 
     glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
@@ -45,7 +56,10 @@ def main():
 
     posicion_id = gl.glGetAttribLocation(shader.shader_program, "position")
     color_id = gl.glGetAttribLocation(shader.shader_program, "color")
-    modelo = Triangulo(shader, posicion_id, color_id)
+
+    transformaciones_id = gl.glGetUniformLocation(shader.shader_program, "transformations")
+
+    modelo = Triangulo(shader, posicion_id, color_id, transformaciones_id)
 
     # Draw loop
     while not glfw.window_should_close(window):
@@ -54,6 +68,7 @@ def main():
 
         # Dibujar
         dibujar()
+        actualizar()
 
         glfw.swap_buffers(window)
         glfw.poll_events()
